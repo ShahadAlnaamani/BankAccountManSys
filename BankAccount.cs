@@ -64,7 +64,38 @@ namespace BankAccountManSys
 
         public void Withdraw()
         {
-        
+
+            Console.Clear();
+            Console.WriteLine("\n$   C I T Y   B A N K   $\n\n");
+            Console.WriteLine("WITHDRAW");
+            Console.Write("\nEnter Account Number: ");
+            string Account = Console.ReadLine();
+
+            if (AccountInformation.ContainsKey(Account))
+            {
+                int x = AccountNumbers.IndexOf(Account);
+                decimal CurrentBalance = Balances[x];
+
+                Console.WriteLine($"Your current balance is ${CurrentBalance}");
+                Console.WriteLine("\nEnter Amount: ");
+                decimal Minus = 0;
+                try
+                {
+                    Minus = decimal.Parse(Console.ReadLine());
+                }
+                catch (Exception ex) { Console.WriteLine("<!>" + ex.Message + "<!>"); }
+
+                if (Minus < CurrentBalance)
+                {
+                    Balances[x] = Balances[x] - Minus;
+
+                    Console.WriteLine("New Balance: " + Balances[x]);
+                }
+                else { Console.WriteLine("<!>The value is invalid<!>"); }
+            }
+            Console.WriteLine("Press enter ot continue...");
+            Console.ReadKey();
+
         }
 
         public void GetAccountInfo()
