@@ -7,12 +7,11 @@ using System.Xml.Serialization;
 
 namespace BankAccountManSys
 {
-    internal class Bank
+    public class Bank
     {
         public List<string> BankAccounts = new List<string>();
         
         public Dictionary<string, string> Information = new Dictionary<string, string>();
-
 
         public void AddAccount()
         {
@@ -44,13 +43,17 @@ namespace BankAccountManSys
                     try
                     {
                         decimal Balance = decimal.Parse(Console.ReadLine());
-                        //Send to add deposit
+                        BankAccount bankAccount = new BankAccount();
+                        bankAccount.AddNewUser(AccountNumber, AccountHolder, Balance);
                     }
                     catch (Exception ex) { Console.WriteLine("<!>" + ex.Message + "<!>"); }
                 }
 
                 else if (Choice == 2) 
-                { }
+                { 
+                    BankAccount bankAccount = new BankAccount();
+                    bankAccount.AddNewUser(AccountNumber, AccountHolder);
+                }
 
                 else { Console.WriteLine("<!>Improper input<!>"); }
             }
@@ -72,7 +75,15 @@ namespace BankAccountManSys
 
             if (Information.ContainsKey(AccountNumber))
             {
-                //Get account info -> display account 
+                foreach (KeyValuePair<string, (string, decimal)> account in BankAccount.AllAccounts)
+                {
+                    if (account.Key == AccountNumber)
+                    {
+                        Console.Write("\nAccount Number: {0}", account.Key, " | ");
+                        Console.Write("\nName: {0}", account.Value.Item1, " | ");
+                        Console.Write("\nBalance: {0}", account.Value.Item2, "\n");
+                    }
+                }
             }
         }
 
@@ -82,10 +93,11 @@ namespace BankAccountManSys
             Console.WriteLine("\n$   C I T Y   B A N K   $\n\n");
             Console.WriteLine("ALL ACCOUNTS");
 
-            foreach(KeyValuePair<string,string> p in Information) 
+            foreach (KeyValuePair<string, (string, decimal)> account in BankAccount.AllAccounts)
             {
-                Console.WriteLine($"Account Number: {p.Key} \nAccount Holder Name: {p.Value}");
-                Console.WriteLine();
+                Console.Write("\nAccount Number: {0}", account.Key, " | ");
+                Console.Write("\nName: {0}", account.Value.Item1, " | ");
+                Console.Write("\nBalance: {0}", account.Value.Item2, "\n");
             }
         }
     }
