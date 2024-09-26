@@ -12,10 +12,10 @@ namespace BankAccountManSys
     {
         private string AccountNumber;
         private string AccountHolderName;
-        private decimal Balance;
+        public decimal Balance {  get; private set; }
        // public static Dictionary<string, string> AccountInformation = new Dictionary<string, string>(); //Account number || Account Holder Name
-        //public static List<decimal> Balances = new List<decimal>();
-      //  public static List<string> AccountNumbers = new List<string>();
+        public static List<decimal> Balances = new List<decimal>();
+        public static List<string> AccountNumbers = new List<string>();
 
         public static Dictionary<string, (string, decimal)> AllAccounts = new Dictionary<string, (string, decimal)>(); //Account number || Account Holder Name || Balance
 
@@ -37,9 +37,7 @@ namespace BankAccountManSys
         }
         
         public void InitialDeposit(double Deposit, string AccountHolderName, string AccountNumber)
-        {
-            //if initial balance chosen then this is called first then goes to account info 
-            //get initial input then send it toaccount info with all info 
+        { 
             Console.Write("\nEnter intitial deposit: ");
             decimal InitialInput = 0;
             try
@@ -60,10 +58,11 @@ namespace BankAccountManSys
             Console.Write("\nEnter Account Number: ");
             string Account = Console.ReadLine();
             
-            if (AccountInformation.ContainsKey(Account))
+            if (AllAccounts.ContainsKey(Account))
             {
                 int x = AccountNumbers.IndexOf(Account);
-                decimal CurrentBalance = Balances[x];
+                decimal CurrentBalance = AllAccounts[Account].Item2;
+
 
                 Console.WriteLine($"Your current balance is ${CurrentBalance}");
                 Console.WriteLine("\nEnter Amount: ");
@@ -77,7 +76,10 @@ namespace BankAccountManSys
                 {
                     Balances[x] = Balances[x] + Add;
 
-                    Console.WriteLine("New Balance: " + Balances[x]);
+                    decimal NewBalance = AllAccounts[Account].Item2 + Add;
+                    AllAccounts[Account] = (AllAccounts[Account].Item1, NewBalance);
+
+                    Console.WriteLine("New Balance: " + AllAccounts[Account]);
                 }
                 else { Console.WriteLine("<!>The value is invalid<!>"); }
             }
@@ -95,7 +97,7 @@ namespace BankAccountManSys
             Console.Write("\nEnter Account Number: ");
             string Account = Console.ReadLine();
 
-            if (AccountInformation.ContainsKey(Account))
+            if (AllAccounts.ContainsKey(Account))
             {
                 int x = AccountNumbers.IndexOf(Account);
                 decimal CurrentBalance = Balances[x];
@@ -109,7 +111,7 @@ namespace BankAccountManSys
                 }
                 catch (Exception ex) { Console.WriteLine("<!>" + ex.Message + "<!>"); }
 
-                if (Minus < CurrentBalance)
+                if (Minus < CurrentBalance && Minus > 0) //Ensuring that don't take out more than what is available in bank account 
                 {
                     Balances[x] = Balances[x] - Minus;
 
@@ -130,12 +132,12 @@ namespace BankAccountManSys
             Console.Write("\nEnter Account Number: ");
             string Account = Console.ReadLine();
 
-            if (AccountInformation.ContainsKey(Account))
+            if (AllAccounts.ContainsKey(Account))
             {
                 int x = AccountNumbers.IndexOf(Account);
                 decimal CurrentBalance = Balances[x];
-                string Name = AccountInfo[Account].Value;
-                Console.WriteLine($"Account Number: {Account} Name:{}");
+                string Name = AllAccounts[Account].Item1;
+                Console.WriteLine($"Account Number: {Account} Name:{Name}");
                 Console.WriteLine($"Your current balance is ${CurrentBalance}");
             
             }
