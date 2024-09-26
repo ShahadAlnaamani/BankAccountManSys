@@ -9,6 +9,9 @@ namespace BankAccountManSys
 {
     public class Bank
     {
+        List<BankAccount> bankAccounts = new List<BankAccount>();   
+
+    
         public List<string> BankAccounts = new List<string>();
         
         public Dictionary<string, string> Information = new Dictionary<string, string>();
@@ -29,7 +32,7 @@ namespace BankAccountManSys
 
                 Information.Add(AccountNumber, AccountHolder);
 
-                Console.WriteLine("\n1. To Add Balance Now \n2.To Add Balance Later");
+                Console.WriteLine("\n1. To Add Balance Now \n2. To Add Balance Later");
                 Console.Write("\nEnter: ");
                 int Choice = 0;
                 try
@@ -45,6 +48,7 @@ namespace BankAccountManSys
                         decimal Balance = decimal.Parse(Console.ReadLine());
                         BankAccount bankAccount = new BankAccount();
                         bankAccount.AddNewUser(AccountNumber, AccountHolder, Balance);
+                        Console.WriteLine("New Account Added Successfully :)!");
                     }
                     catch (Exception ex) { Console.WriteLine("<!>" + ex.Message + "<!>"); }
                 }
@@ -53,6 +57,7 @@ namespace BankAccountManSys
                 { 
                     BankAccount bankAccount = new BankAccount();
                     bankAccount.AddNewUser(AccountNumber, AccountHolder);
+                    Console.WriteLine("New Account Added Successfully :)!");
                 }
 
                 else { Console.WriteLine("<!>Improper input<!>"); }
@@ -60,9 +65,6 @@ namespace BankAccountManSys
 
             else 
             { Console.WriteLine("<!>This bank account already exists<!>"); }
-
-            Console.WriteLine("Press enter to continue...");
-            Console.ReadKey();
         }
 
         public void GetAccountByNumber() 
@@ -70,7 +72,7 @@ namespace BankAccountManSys
             Console.Clear();
             Console.WriteLine("\n$   C I T Y   B A N K   $\n\n");
             Console.WriteLine("SEARCH FOR ACCOUNT");
-            Console.WriteLine("Enter Account Number: ");
+            Console.Write("\nEnter Account Number: ");
             string AccountNumber = Console.ReadLine();
 
             if (Information.ContainsKey(AccountNumber))
@@ -80,8 +82,8 @@ namespace BankAccountManSys
                     if (account.Key == AccountNumber)
                     {
                         Console.Write("\nAccount Number: {0}", account.Key, " | ");
-                        Console.Write("\nName: {0}", account.Value.Item1, " | ");
-                        Console.Write("\nBalance: {0}", account.Value.Item2, "\n");
+                        Console.Write("Name: {0}", account.Value.Item1, " | ");
+                        Console.Write("Balance: {0}", account.Value.Item2, "\n");
                     }
                 }
             }
@@ -95,9 +97,9 @@ namespace BankAccountManSys
 
             foreach (KeyValuePair<string, (string, decimal)> account in BankAccount.AllAccounts)
             {
-                Console.Write("\nAccount Number: {0}", account.Key, " | ");
-                Console.Write("\nName: {0}", account.Value.Item1, " | ");
-                Console.Write("\nBalance: {0}", account.Value.Item2, "\n");
+                Console.Write("\nAccount Number: {0} | ", account.Key);
+                Console.Write("Name: {0} | ", account.Value.Item1);
+                Console.Write("Balance: {0} \n", account.Value.Item2);
             }
         }
     }

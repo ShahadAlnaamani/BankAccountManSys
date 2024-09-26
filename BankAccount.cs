@@ -20,19 +20,23 @@ namespace BankAccountManSys
         public static Dictionary<string, (string, decimal)> AllAccounts = new Dictionary<string, (string, decimal)>(); //Account number || Account Holder Name || Balance
 
 
-        public void AddNewUser(string AccountHolderName, string AccountNumber) //If user does not want to add initial deposit 
+        public void AddNewUser(string AccountNumber, string AccountHolderName) //If user does not want to add initial deposit 
         {
             decimal InitialInput = 0;
             AllAccounts.Add(AccountNumber, (AccountHolderName, InitialInput));
+            Balances.Add(InitialInput);
+            AccountNumbers.Add(AccountNumber);  
         }
 
-        public void AddNewUser(string AccountHolderName, string AccountNumber, decimal InitialInput)  //If initial input is gived 
+        public void AddNewUser(string AccountNumber, string AccountHolderName, decimal InitialInput)  //If initial input is gived 
         {
             
            // AccountInformation.Add(accountNumber, accountHolderName);
 
 
             AllAccounts.Add(AccountNumber, (AccountHolderName, InitialInput));
+            Balances.Add(InitialInput);
+            AccountNumbers.Add(AccountNumber);
 
         }
         
@@ -65,7 +69,7 @@ namespace BankAccountManSys
 
 
                 Console.WriteLine($"Your current balance is ${CurrentBalance}");
-                Console.WriteLine("\nEnter Amount: ");
+                Console.Write("\nEnter Amount: ");
                 decimal Add = 0;
                 try
                 {
@@ -79,14 +83,12 @@ namespace BankAccountManSys
                     decimal NewBalance = AllAccounts[Account].Item2 + Add;
                     AllAccounts[Account] = (AllAccounts[Account].Item1, NewBalance);
 
-                    Console.WriteLine("New Balance: " + AllAccounts[Account]);
+                    Console.WriteLine("New Balance: " + AllAccounts[Account].Item2);
                 }
                 else { Console.WriteLine("<!>The value is invalid<!>"); }
             }
 
             else { Console.WriteLine("<!>This account does not exist<!>"); }
-            Console.WriteLine("Press enter ot continue...");
-            Console.ReadKey();
         }
 
         public void Withdraw()
@@ -103,7 +105,7 @@ namespace BankAccountManSys
                 decimal CurrentBalance = Balances[x];
 
                 Console.WriteLine($"Your current balance is ${CurrentBalance}");
-                Console.WriteLine("\nEnter Amount: ");
+                Console.Write("\nEnter Amount: ");
                 decimal Minus = 0;
                 try
                 {
@@ -120,8 +122,6 @@ namespace BankAccountManSys
                 else { Console.WriteLine("<!>The value is invalid<!>"); }
             }
             else { Console.WriteLine("<!>This account does not exist<!>"); }
-            Console.WriteLine("Press enter ot continue...");
-            Console.ReadKey();
         }
 
         public void GetAccountInfo()

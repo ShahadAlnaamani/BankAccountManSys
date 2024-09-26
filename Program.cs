@@ -45,7 +45,7 @@
                         break;
 
                     case 5:
-                        bank.DisplayAllAccounts();
+                        bank.GetAccountByNumber();
                         break;
 
 
@@ -59,7 +59,7 @@
                         break;
                 }
 
-                Console.WriteLine("Press enter to continue...");
+                Console.WriteLine("\nPress enter to continue...");
                 Console.ReadKey();
             } while (Running != false);
 
